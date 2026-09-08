@@ -10,26 +10,26 @@
 <body>
     <h1>Mi signo Zodiacal</h1>
 
-    <form action="recibe_formulario.html" method="POST" >
+    <form action="recibe_formulario.php" method="POST" >
 
         <div class="mb-3">
         <label for="Nombre" class="form-label">
             Nombre:
-        <input type="text" id="Nombre" name="Nombre" class="form-control">
+        <input type="text" id="Nombre" name="nombre" class="form-control" required>
         </label>
         </div>
 
         <div class="mb-3">
         <label for="Correo" class="form-label">
             Correo:
-            <input type="email" id="Correo" name="Correo" class="form-control">
+            <input type="email" id="Correo" name="correo" class="form-control" required>
         </label>
         </div>
 
         <div class="mb-3">
         <label for="Fecha_de_nacimiento" class="form-label">
             Fecha de nacimiento:
-            <input type="date" name="Fecha_de_nacimiento" class="form-control">
+            <input type="date" name="fecha_de_nacimiento" class="form-control" required>
         </label>
         </div>
 
