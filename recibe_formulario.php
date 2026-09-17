@@ -7,6 +7,19 @@
 </head>
 <body>
     <?php
+    require('conexion.php');//conexion a base de datos 
+
+    //--- Aplicable a Sentencias INSERT, UPDATE, DELETE ---//
+    $sql = "INSERT INTO informacion_horoscopo (nombre, correo, fecha_de_nacimiento )
+    VALUES ('$nombre', '$correo', '$fecha_nacimiento')";
+    // Utilizar exec() dado que no se regresan resultados
+    $conn->exec($sql);
+
+    //--- Aplicable a Sentencia SELECT ---//
+    $sql = "SELECT * FROM informacion_horoscopo";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+
     if ($_SERVER["REQUEST_METHOD"]=="POST"){
     $nombre = $_POST['nombre'];
     $correo = $_POST['correo'];
