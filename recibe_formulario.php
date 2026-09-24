@@ -3,35 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Recibe formulario</title>
 </head>
 <body>
     <?php
-    require('conexion.php');//conexion a base de datos 
+        require('conexion.php');
 
-    //--- Aplicable a Sentencias INSERT, UPDATE, DELETE ---//
-    $sql = "INSERT INTO informacion_horoscopo (nombre, correo, fecha_de_nacimiento )
-    VALUES ('$nombre', '$correo', '$fecha_nacimiento')";
-    // Utilizar exec() dado que no se regresan resultados
-    $conn->exec($sql);
+        // Verificar si se ha enviado el formulario
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $nombre = $_POST["nombre"];
+            $correo = $_POST["correo"];
+            $fecha_de_nacimiento = $_POST["fecha_de_nacimiento"];
 
-    //--- Aplicable a Sentencia SELECT ---//
-    $sql = "SELECT * FROM informacion_horoscopo";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
+            // Limpieza de datos
 
-    if ($_SERVER["REQUEST_METHOD"]=="POST"){
-    $nombre = $_POST['nombre'];
-    $correo = $_POST['correo'];
-    $fecha_nacimiento = $_POST['fecha_de_nacimiento'];
+            // Crear registro en DB
+            $sql = "INSERT INTO informacion_horoscopo (nombre, correo, fecha_de_nacimiento)
+                    VALUES ('$nombre', '$correo', '$fecha_de_nacimiento')";
+            $conn->exec($sql);
 
-    echo "<h2>Informacion capturada</h2>";
-    echo "Nombre: " .$nombre. "<br>";
-    echo "Correo: " .$correo. "<br>";
-    echo "Fecha de nacimiento" .$fecha_nacimiento. "<br>";}
-    else {
-        echo "<p>No es una peticion tipo POST</p>";
-    }
+
+            // Mostrar información de tabla informacion_horoscopo
+            $stmt = $conn->query("SELECT * FROM informacion_horoscopo");
+            $informacion_horoscopo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Recorre el array de informacion_horoscopo y muestra la información
+            foreach ($informacion_horoscopo as $informacion_horoscopo) {
+                echo "<p>Nombre: " . $informacion_horoscopo['nombre'] . ", Correo: " . $informacion_horoscopo['correo'] . ", Fecha de nacimiento: " . $informacion_horoscopo['fecha_de_nacimiento'] . "</p>";
+            }
+        } else {
+            echo "<p>No es una petición tipo POST.</p>";
+        }
     ?>    
 </body>
 </html>
